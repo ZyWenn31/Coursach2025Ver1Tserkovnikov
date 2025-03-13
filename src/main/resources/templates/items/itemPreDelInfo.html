@@ -11,6 +11,8 @@
     <input type="submit" value="Удалить">
 </form>
 <form th:object="${item}">
+    <img class="img" th:if="${item.getImage() != null}" th:src="@{'/upload/' + ${item.getImage()}}" alt="Фото товара">
+    <img class="img" th:if="${item.getImage() == null}" src="/images/2.png" alt="Заглушка фото товара">
     <p th:text="'Номер товара: ' + ${item.getItem_id()}">item</p>
     <p th:text="'Название: '+${item.getLabel()} + ' цена: '+${item.getItem_price()}"></p>
     <p th:text="'Категория: ' + ${item.getCategory_id().getCategory_title()}"></p>

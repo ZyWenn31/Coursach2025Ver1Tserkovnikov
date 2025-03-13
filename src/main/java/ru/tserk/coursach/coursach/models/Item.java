@@ -35,6 +35,9 @@ public class Item {
     @JoinColumn(name = "category", referencedColumnName = "category_id")
     private Category category_id;
 
+    @Column(name = "image")
+    private String image;
+
     @OneToMany(mappedBy = "itemId", cascade = CascadeType.REMOVE)
     private List<OrderItem> orderItemList = new ArrayList<>();
 
@@ -116,6 +119,14 @@ public class Item {
 
     public void setCartItemList(List<Cart_item> cartItemList) {
         this.cartItemList = cartItemList;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

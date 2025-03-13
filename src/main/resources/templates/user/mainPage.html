@@ -7,14 +7,14 @@
 </head>
 <body>
 <p th:text="'Добро пожаловать, ' + ${person.getUsername()} + ', выберите что хотите сделать'"></p>
-<form method="get" action="/main/search">
-  <label for="search">Найти товары по названию: </label>
-  <input type="submit" value="Поиск товаров" id="search">
+<form method="get" action="/main/all">
+    <label for="search">Найти товары по названию: </label>
+    <input type="submit" value="Поиск товаров" id="search">
 </form>
 <br/>
 <form method="get" action="/items" th:if="${role == 'ROLE_ADMIN'}">
-  <label for="items">Изменить информацию по товарам: </label>
-  <input type="submit" value="Учет товаров" id="items" >
+    <label for="items">Изменить информацию по товарам: </label>
+    <input type="submit" value="Учет товаров" id="items" >
 </form>
 </body>
 </html>

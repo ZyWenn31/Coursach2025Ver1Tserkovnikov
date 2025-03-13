@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/editItem.css">
 </head>
 <body>
-<form th:object="${item}" th:action="@{/items/edit/{id}(id = ${item.getItem_id()})}" th:method="POST">
+<form th:object="${item}" th:action="@{/items/edit/{id}(id = ${item.getItem_id()})}" th:method="POST" enctype="multipart/form-data">
+    <img class="img" th:if="${item.getImage() != null}" th:src="@{'/upload/' + ${item.getImage()}}" alt="Фото товара">
+    <img class="img" th:if="${item.getImage() == null}" src="/images/2.png" alt="Заглушка фото товара">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <label for="label">Название техники</label>
     <input type="text" id="label" th:field="*{label}"/>
@@ -22,13 +25,15 @@
     </select>
     <div style="color: red" th:if="${#fields.hasErrors('category_id')}" th:errors="*{category_id}">category errors</div>
 
-
     <br/>
     <label for="description">Описание техники</label>
     <input type="text" id="description" th:field="*{description}" >
     <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description errors</div>
     <br/>
-    <input type="submit" value="Создать">
+    <p>Изменить картинку:</p>
+    <input type="file" name="imageFile" accept="image/*">
+    <a href="/items/edit">Назад</a>
+    <input type="submit" value="Изменить">
 </form>
 </body>
 </html>

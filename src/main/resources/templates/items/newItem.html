@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:object="${item}" action="/items/add" th:method="POST">
+<form name="asd" th:object="${item}" action="/items/add" th:method="POST" enctype="multipart/form-data">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <label for="label">Введите название техники</label>
     <input type="text" id="label" th:field="*{label}"/>
@@ -27,6 +27,8 @@
     <label for="description">Введите описание техники</label>
     <input type="text" id="description" th:field="*{description}">
     <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description errors</div>
+    <br/>
+    <input type="file" name="imageFile" accept="image/*" required>
     <br/>
     <input type="submit" value="Создать">
 </form>

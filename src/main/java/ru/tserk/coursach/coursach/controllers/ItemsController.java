@@ -1,10 +1,12 @@
 package ru.tserk.coursach.coursach.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.tserk.coursach.coursach.models.Item;
 import ru.tserk.coursach.coursach.models.ShopItem;
 import ru.tserk.coursach.coursach.services.CategoryService;
@@ -44,7 +46,7 @@ public class ItemsController {
     }
 
     //Страница создания новых товаров
-    @GetMapping("/add")
+    @GetMapping(value = "/add")
     public String newItem(@ModelAttribute("item") Item item, Model model){
         model.addAttribute("categories", categoryService.findAll());
         return "/items/newItem";
@@ -52,14 +54,14 @@ public class ItemsController {
 
     //ДОБАВИТЬ ПРОСМОТОР ВСЕХ СОЗДАННЫХ ТОВАРОВ
     @PostMapping("/add")
-    public String postNewItem(@ModelAttribute("item")@Valid Item item, BindingResult bindingResult, Model model){
+    public String postNewItem(@ModelAttribute("item")@Valid Item item, @RequestParam("imageFile") MultipartFile file,  BindingResult bindingResult, Model model){
         itemValidator.validate(item, bindingResult);
         if (bindingResult.hasErrors()){
             model.addAttribute("categories", categoryService.findAll());
             return "items/newItem";
         }
 
-        itemService.save(item);
+        itemService.saveWithPhoto(item, file);
 
         return "redirect:/items/add";
     }
@@ -110,7 +112,8 @@ public class ItemsController {
 
     @PostMapping("/edit/{id}")
     public String updatePerson(@ModelAttribute("item")@Valid Item item, BindingResult bindingResult,
-                               @PathVariable("id")int id, Model model){
+                               @PathVariable("id")int id, @RequestParam(value = "imageFile", required = false) MultipartFile file,
+                               Model model){
         editItemValidator.validate(item, bindingResult, id);
         if (bindingResult.hasErrors()){
             item.setItem_id(id);
@@ -118,7 +121,9 @@ public class ItemsController {
             return "items/itemPreEditInfo";
         }
 
-        itemService.updateItem(id, item);
+        if (file != null && !file.isEmpty()){
+            itemService.updateItemWithPhoto(id, file, item);
+        } else itemService.updateItem(id, item);
 
         return "redirect:/items/edit";
     }

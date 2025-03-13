@@ -37,6 +37,12 @@ public class UserController {
         return "user/mainPage";
     }
 
+    @GetMapping("all")
+    public String allItems(Model model){
+        model.addAttribute("allItems", itemService.findAll());
+        return "user/allItems";
+    }
+
     //Страница поиска
     @GetMapping("/search")
     public String searchPage(){

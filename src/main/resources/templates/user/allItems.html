@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All</title>
+    <link rel="stylesheet" href="/css/allItems.css"> 
+</head>
+<body>
+<header>
+    <ul>
+        <a href="/main/search">на страницу поиска</a>
+        <a href="/main">на главную</a>
+    </ul>
+</header>
+
+<form th:if="${allItems.isEmpty()}">
+    <a style="color: red">Техника не найдена</a>
+</form>
+<div class="newClass">
+    <form th:each="item : ${allItems}" th:if="${!allItems.isEmpty()}" th:action="@{itemInfo/{id}(id = ${item.getItem_id()})}" >
+        <!--        <img class="img" th:if="${item.getImage() != null}" th:src="@{'/upload/' + ${item.getImage()}}" alt="Фото товара">-->
+        <img class="img" th:if="${item.getImage() != null}" th:src="@{'/upload/' + ${item.getImage()}}" alt="Фото товара">
+        <img class="img" th:if="${item.getImage() == null}" src="/images/2.png" alt="Заглушка фото товара">
+        <p th:text="' Техника: '+${item.getLabel()}"></p>
+        <p th:text=" ' Категория: '+${item.getCategory_id().getCategory_title()}"></p>
+        <p th:text="' Цена: '+${item.getItem_price()}"></p>
+        <input type="submit" value="На страницу товара">
+        <button></button>
+    </form>
+</div>
+</body>
+</html>

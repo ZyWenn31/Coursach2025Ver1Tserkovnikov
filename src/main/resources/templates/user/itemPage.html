@@ -7,6 +7,9 @@
 </head>
 <body>
 <form th:object="${item}">
+    <img class="img" th:if="${item.getImage() != null}" th:src="@{'/upload/' + ${item.getImage()}}" alt="Фото товара">
+    <img class="img" th:if="${item.getImage() == null}" src="/images/2.png" alt="Заглушка фото товара">
+    <br/>
     <p th:text="'Название техники: ' + ${item.getLabel()} + ' | цена: '+${item.getItem_price()}">item</p>
     <p th:text="'Категория: ' + ${item.getCategory_id().getCategory_title()}"></p>
 <!--    <p th:if="${item.get().getCategory_id() == null}">Категория не указана</p>-->
